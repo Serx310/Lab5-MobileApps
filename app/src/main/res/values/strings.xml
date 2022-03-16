@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Lab5</string>
+    <string name="new_description">Button for adding a new recipe</string>
+    <string name="cook_time">Cooking time (minutes)</string>
+    <string name="recipe_placeholder_title">Recipe Title</string>
+    <string name="recipe_placeholder_author">Recipe Author</string>
+    <string name="recipe_placeholder_cooking_time">Recipe Cooking Time</string>
+    <string name="recipe_placeholder_content">Lorem Ipsum Dolor Sit Amet</string>
+    <string name="save_description">Button for saving recipe info</string>
+    <string name="recipe_steps">Recipe steps</string>
+</resources>
