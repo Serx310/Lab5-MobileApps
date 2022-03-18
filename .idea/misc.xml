@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/opilane/AndroidStudioProjects/Lab5/app/src/main/res/layout/activity_add_recipe.xml" value="0.559375" />
+        <entry key="..\:/Users/opilane/AndroidStudioProjects/Lab5/app/src/main/res/layout/activity_main.xml" value="0.559375" />
         <entry key="..\:/Users/opilane/AndroidStudioProjects/Lab5/app/src/main/res/layout/single_recipe.xml" value="0.559375" />
+        <entry key="..\:/Users/opilane/AndroidStudioProjects/Lab5/app/src/main/res/menu/menu_add.xml" value="0.39537037037037037" />
+        <entry key="..\:/Users/opilane/AndroidStudioProjects/Lab5/app/src/main/res/menu/menu_main.xml" value="0.39537037037037037" />
       </map>
     </option>
   </component>

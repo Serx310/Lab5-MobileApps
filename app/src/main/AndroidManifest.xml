@@ -11,6 +11,7 @@
         android:theme="@style/Theme.Lab5">
         <activity
             android:name=".activity.AddRecipeActivity"
+            android:launchMode="singleTop"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"

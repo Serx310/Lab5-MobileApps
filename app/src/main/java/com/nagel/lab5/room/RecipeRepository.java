@@ -28,8 +28,8 @@ public class RecipeRepository {
         new DeleteRecipeAsyncTask(recipeDao).execute(recipe);
     }
 
-    public void deleteAllRecipes(Recipe recipe) {
-        new DeleteAllRecipeAsyncTask(recipeDao).execute(recipe);
+    public void deleteAllRecipes() {
+        new DeleteAllRecipeAsyncTask(recipeDao).execute();
     }
 
     public LiveData<List<Recipe>> getAllRecipes() {return allRecipes;}
@@ -54,7 +54,7 @@ public class RecipeRepository {
         }
         @Override
         protected Void doInBackground(Recipe... recipes) {
-            recipeDao.insert(recipes[0]);
+            recipeDao.update(recipes[0]);
             return null;
         }
     }
@@ -67,7 +67,7 @@ public class RecipeRepository {
 
         @Override
         protected Void doInBackground(Recipe... recipes) {
-            recipeDao.insert(recipes[0]);
+            recipeDao.delete(recipes[0]);
             return null;
         }
     }
@@ -79,7 +79,7 @@ public class RecipeRepository {
         }
         @Override
         protected Void doInBackground(Recipe... recipes) {
-            recipeDao.insert(recipes[0]);
+            recipeDao.deleteAllRecipes();
             return null;
         }
     }

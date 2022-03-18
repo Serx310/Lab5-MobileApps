@@ -8,4 +8,9 @@
     <string name="recipe_placeholder_content">Lorem Ipsum Dolor Sit Amet</string>
     <string name="save_description">Button for saving recipe info</string>
     <string name="recipe_steps">Recipe steps</string>
+    <string name="edit">Edit recipe</string>
+    <string name="field_error">Enter recipe info into fields!</string>
+    <string name="save_db">Recipe was saved to DB</string>
+    <string name="save_err">Failed to save recipe to DB</string>
+    <string name="recipes_deleted">All recipes were deleted!</string>
 </resources>
