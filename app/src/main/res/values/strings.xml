@@ -13,4 +13,8 @@
     <string name="save_db">Recipe was saved to DB</string>
     <string name="save_err">Failed to save recipe to DB</string>
     <string name="recipes_deleted">All recipes were deleted!</string>
+    <string name="recipe_deleted">Recipe was deleted</string>
+    <string name="recipe_err">Recipe could not be updated</string>
+    <string name="recipe_closed">Recipe closed</string>
+    <string name="updated">Recipe updated</string>
 </resources>

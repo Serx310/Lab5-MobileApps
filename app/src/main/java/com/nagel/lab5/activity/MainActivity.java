@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private static final int RESULT_EDIT = 200;
     private RecipeViewModel recipeViewModel;
     public static final int RESULT_SAVE = 100;
 
@@ -46,6 +49,29 @@ public class MainActivity extends AppCompatActivity {
                     }else{
                         Snackbar.make(findViewById(R.id.myCoordinatorMain), getString(R.string.save_err), Snackbar.LENGTH_SHORT).show();
                     }
+                }else if(result.getResultCode() == RESULT_EDIT){
+                    Intent resultData = result.getData();
+                    if(resultData != null){
+                        int id = resultData.getIntExtra(AddRecipeActivity.EXTRA_ID, -1);
+                        if(id == -1){
+                            Snackbar.make(findViewById(R.id.myCoordinatorMain), getString(R.string.recipe_err),
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
+                        String title = resultData.getStringExtra(AddRecipeActivity.EXTRA_TITLE);
+                        String author = resultData.getStringExtra(AddRecipeActivity.EXTRA_AUTHOR);
+                        String content = resultData.getStringExtra(AddRecipeActivity.EXTRA_CONTENT);
+                        int time = resultData.getIntExtra(AddRecipeActivity.EXTRA_TITLE, 1);
+                        Recipe recipe = new Recipe(title, author, content, time);
+                        recipe.setId(id);
+                        recipeViewModel.update(recipe);
+
+                    }else{
+                        Snackbar.make(findViewById(R.id.myCoordinatorMain), getString(R.string.updated),
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Snackbar.make(findViewById(R.id.myCoordinatorMain), getString(R.string.recipe_closed),
+                            Snackbar.LENGTH_SHORT).show();
                 }
             }
     );
@@ -67,13 +93,36 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         recipeViewModel = new ViewModelProvider(this).get(RecipeViewModel.class);
-        recipeViewModel.getAllRecipes().observe(this, new Observer<List<Recipe>>() {
+        recipeViewModel.getAllRecipes().observe(this, adapter::submitList);
+        //adding swipe
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            //drag and drop
             @Override
-            public void onChanged(List<Recipe> recipes) {
-                adapter.setRecipeList(recipes);
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                recipeViewModel.delete(adapter.getRecipePosition(viewHolder.getAbsoluteAdapterPosition()));
+                Snackbar.make(findViewById(R.id.myCoordinatorMain), getString(R.string.recipe_deleted), Snackbar.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(recyclerView);
+
+        //add click to adapter
+        adapter.setOnItemClickListener(new RecipeAdapter.onItemClickListener() {
+            @Override
+            public void onItemClickListener(Recipe recipe) {
+                Intent intent = new Intent(MainActivity.this, AddRecipeActivity.class);
+                intent.putExtra(AddRecipeActivity.EXTRA_TITLE, recipe.getTitle());
+                intent.putExtra(AddRecipeActivity.EXTRA_AUTHOR, recipe.getAuthor());
+                intent.putExtra(AddRecipeActivity.EXTRA_CONTENT, recipe.getContent());
+                intent.putExtra(AddRecipeActivity.EXTRA_TIME, recipe.getTime());
+                intent.putExtra(AddRecipeActivity.EXTRA_ID, recipe.getId());
+                setResult(RESULT_EDIT, intent);
+                activityResultLauncher.launch(intent);
             }
         });
-
 
     }
 

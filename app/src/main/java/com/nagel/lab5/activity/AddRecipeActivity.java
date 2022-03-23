@@ -16,6 +16,7 @@ import com.nagel.lab5.R;
 
 public class AddRecipeActivity extends AppCompatActivity {
 
+    private static final int RESULT_EDIT = 200;
     private EditText etTitle;
     private EditText etAuthor;
     private EditText etContent;
@@ -25,6 +26,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     public static final String EXTRA_AUTHOR = "com.nagel.lab5.activity.EXTRA_AUTHOR";
     public static final String EXTRA_CONTENT = "com.nagel.lab5.activity.EXTRA_CONTENT";
     public static final String EXTRA_TIME = "com.nagel.lab5.activity.EXTRA_TIME";
+    public static final String EXTRA_ID = "com.nagel.lab5.activity.EXTRA_ID";
 
     public static final int RESULT_SAVE = 100;
 
@@ -41,6 +43,16 @@ public class AddRecipeActivity extends AppCompatActivity {
         ntPicker.setMaxValue(300);
         if(getSupportActionBar() != null){
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
+            Intent intent = getIntent();
+            if(intent.hasExtra(EXTRA_ID)){
+                setTitle(getString(R.string.edit));
+                etTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+                etAuthor.setText(intent.getStringExtra(EXTRA_AUTHOR));
+                etContent.setText(intent.getStringExtra(EXTRA_CONTENT));
+                ntPicker.setValue(intent.getIntExtra(EXTRA_TIME, 1));
+            }else{
+                setTitle("Create recipe");
+            }
             setTitle(getString(R.string.edit));
         }
     }
@@ -75,8 +87,13 @@ public class AddRecipeActivity extends AppCompatActivity {
         data.putExtra(EXTRA_AUTHOR, author);
         data.putExtra(EXTRA_CONTENT, content);
         data.putExtra(EXTRA_TIME, time);
-
-        setResult(RESULT_SAVE, data);
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if(id != -1){
+            data.putExtra(EXTRA_ID, id);
+            setResult(RESULT_EDIT, data);
+        }else{
+            setResult(RESULT_SAVE, data);
+        }
         finish();
     }
 
